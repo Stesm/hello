@@ -1,24 +1,31 @@
 <?
 namespace Core;
-use Core\Helpers\Route;
-use Core\Helpers\Scud;
+
+use Core\Helpers\{Request, Route, Scud};
 
 /**
  * Class Core
  * @package Core
  */
-class Core {
+class Core
+{
     /** @var \Core\Helpers\Route $router */
     public static $route = null;
-    /** @var \Core\Helpers\DBConn $router */
+
+    /** @var \Core\Helpers\DB $router */
     public static $db = null;
-    /** @var \Core\Helpers\Scud $router */
+
+    /** @var Scud $router */
     public static $template = null;
+
+    /** @var Request $request */
+    public static $request = null;
 
     /** @var array $params */
     private static $params = [];
+
     /** @var string $version */
-    private static $version = '3.0.000';
+    private static $version = '3.3';
 
     public static function load(){
         if(!isset($_SESSION))
@@ -29,9 +36,13 @@ class Core {
         else
             die('No config, check "Core/config.php"');
 
-        if(php_sapi_name() != 'cli'){
-            self::$route = new Route();
+        if (php_sapi_name() != 'cli') {
+            if(is_file($file = APP_ROOT.'/App/Includes/http.php'))
+                require_once $file;
+
+            self::$route = Route::instance();
             self::$template = new Scud();
+            self::$request = new Request();
         }
 
         if(self::$params['DB'] && self::$params['DB']['driver'] && class_exists(self::$params['DB']['driver']))
@@ -45,7 +56,7 @@ class Core {
             ini_set('display_errors', 0);
         }
 
-        if(file_exists($file = APP_ROOT.'/App/Includes/data.sources.php'))
+        if(file_exists($file = APP_ROOT.'/Core/Vendor/autoload.php'))
             @include_once $file;
     }
 
@@ -186,7 +197,7 @@ class Core {
      * @return string
      */
     public static function view($view_name, $data = []){
-        return self::$template->render($view_name, $data);
+        return (new Scud)->render($view_name, $data);
     }
 
     /**
@@ -194,5 +205,17 @@ class Core {
      */
     public static function version(){
         return self::$version;
+    }
+
+    /**
+     * @param string $str
+     */
+    public static function log(string $str)
+    {
+        $log_path = APP_ROOT.'/App/runtime/execution.log';
+        $fd = fopen($log_path, 'wb+');
+
+        fwrite($fd, date('[Y-m-d H:i:s]').' '.$str.PHP_EOL);
+        fclose($fd);
     }
 }

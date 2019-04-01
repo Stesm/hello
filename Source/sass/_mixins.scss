@@ -1,0 +1,37 @@
+@mixin transition($transition...) {
+  -moz-transition:    $transition;
+  -o-transition:      $transition;
+  -webkit-transition: $transition;
+  transition:         $transition;
+}
+
+@mixin border-radius($radius){
+  -webkit-border-radius: $radius;
+  -moz-border-radius: $radius;
+  -ms-border-radius: $radius;
+  border-radius: $radius;
+}
+
+@mixin appearance($val){
+  -webkit-appearance: $val;
+  -moz-appearance: $val;
+  appearance: $val;
+}
+
+@mixin blur($val) {
+  -webkit-filter: blur($val);
+  -moz-filter: blur($val);
+  -o-filter: blur($val);
+  -ms-filter: blur($val);
+  filter: blur($val);
+}
+
+@mixin shadow($value...) {
+  -webkit-box-shadow: $value;
+  -moz-box-shadow: $value;
+  box-shadow: $value;
+}
+
+@function px-rem($pixels) {
+  @return ($pixels/16*20)/20 + rem
+}

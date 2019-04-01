@@ -1,14 +1,19 @@
 <?
+require_once '../Core/bootstrap.php';
+
 use \Core\Core;
-define('PUBLIC_ROOT', dirname(__FILE__));
-define('APP_ROOT', dirname(PUBLIC_ROOT));
 
-spl_autoload_register(function($class){
-    if(is_file($path = str_replace('\\', '/', APP_ROOT."/{$class}.php"))){
-        require_once($path);
-    }else
-        die("Class {$class} not found in path {$path}");
-});
+try {
+    Core::$route->start();
+} catch (\Throwable $e) {
+    while (ob_list_handlers())
+        ob_end_clean();
 
-Core::load();
-Core::$route->start();
+    header('HTTP/1.1 500 Internal Server Error', true, 500);
+
+    echo "<h2>{$e->getMessage()}</h2>";
+    echo "<h4>Path:</h4>";
+    echo "<pre>{$e->getFile()}:{$e->getLine()}</pre>";
+    echo "<h4>Trace:</h4>";
+    echo "<pre>{$e->getTraceAsString()}</pre>";
+}

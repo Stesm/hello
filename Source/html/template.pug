@@ -1,0 +1,9 @@
+doctype html
+html
+    head
+        | <?php $this->showMeta(); ?>
+        | <?php \Core\Helpers\PageAssets::showCSS(); ?>
+    body
+        | <?php $this->showContent(); ?>
+        span <?=$core_version?>
+        | <?php \Core\Helpers\PageAssets::showJS(); ?>

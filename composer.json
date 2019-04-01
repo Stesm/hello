@@ -1,0 +1,8 @@
+{
+  "config": {
+    "vendor-dir": "Core/Vendor"
+  },
+  "require" : {
+    "swiftmailer/swiftmailer": "6.0.1"
+  }
+}

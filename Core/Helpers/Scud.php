@@ -55,10 +55,18 @@ class Scud {
             if(!is_array($data))
                 $data = [];
 
+            $source_data = [];
+
             if(array_key_exists($view, self::$sources)){
-                $source_data = [];
                 /** @var ViewDataSource $class */
                 foreach(self::$sources[$view] as $class){
+                    $source_data = array_merge($source_data, $class::data());
+                }
+            }
+
+            if(array_key_exists('*', self::$sources)){
+                /** @var ViewDataSource $class */
+                foreach(self::$sources['*'] as $class){
                     $source_data = array_merge($source_data, $class::data());
                 }
             }
@@ -94,7 +102,6 @@ class Scud {
      */
     private function getContent($path, $data = []){
         extract($data);
-        unset($data);
 
         ob_start();
         include $path;

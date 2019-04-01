@@ -24,6 +24,9 @@ class DBRes {
         return false;
     }
 
+    /**
+     * @return array|bool|null
+     */
     public function fetch(){
         if($this->result != false){
             if($row = mysqli_fetch_assoc($this->result)){
@@ -33,7 +36,7 @@ class DBRes {
         }else
             return false;
     }
-    
+
     public function Rows(){
         return $this->s_rows;
     }

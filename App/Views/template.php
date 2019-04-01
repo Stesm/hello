@@ -1,12 +1,2 @@
-<?
-/** @var \Core\Helpers\Scud $this */
-?><!DOCTYPE html>
-<html>
-<head>
-    <?$this->showMeta()?>
-</head>
-<body>
-    <?$this->showContent()?>
-    <span><?=$core_version?></span>
-</body>
-</html>
+<!DOCTYPE html><html><head><?php $this->showMeta(); ?>
+<?php \Core\Helpers\PageAssets::showCSS(); ?></head><body><?php $this->showContent(); ?><span><?=$core_version?></span><?php \Core\Helpers\PageAssets::showJS(); ?></body></html>

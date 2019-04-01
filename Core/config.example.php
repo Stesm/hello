@@ -9,5 +9,9 @@ return [
             'db'   => 'asu'
         ]
     ],
-    'ENV' => 'debug'
+    'ENV' => 'debug',
+    'IMAGE_PATH' => 'img',
+    'ROOT_PATH' => dirname(__DIR__),
+    'PUBLIC_PATH' => dirname(__DIR__).'/Public',
+    'COMPRESS_STATIC' => 1,
 ];
